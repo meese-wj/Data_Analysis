@@ -22,14 +22,19 @@ namespace Statistics
     class Measures_of_Center 
     {
         public:
+            // Setup functions
             Measures_of_Center();
             virtual ~Measures_of_Center();
             virtual void collect_data( const input_t * const data_start, const input_t * const data_end );
             virtual void collect_data( const std::vector<input_t> & data );
 
+            // Statistical functions
+            virtual output_t nth_central_moment( const input_t nth );
             virtual void compute_statistics() const;
-            virtual input_t get_measure( const Measures measure ) const;
-            virtual input_t get_measure( const std::uint32_t measure ) const;
+
+            // Getter functions
+            virtual output_t get_measure( const Measures measure ) const;
+            virtual output_t get_measure( const std::uint32_t measure ) const;
 
         protected:
             // Store the measures on the stack
