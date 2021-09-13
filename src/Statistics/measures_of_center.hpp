@@ -4,7 +4,6 @@
 
 #include <cstdint>
 #include <vector>
-#include "fast_template_powers.hpp"
 
 namespace Statistics
 {

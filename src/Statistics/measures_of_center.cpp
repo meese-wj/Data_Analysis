@@ -2,6 +2,7 @@
 // Measures of Center class
 
 #include "measures_of_center.hpp"
+#include "int_power_templates.hpp"
 #include <cmath>
 
 namespace Statistics
@@ -84,7 +85,7 @@ namespace Statistics
             
             for ( std::uint32_t idx = 0; idx != _size; ++idx )
             {
-                moc[Measures::variance] += fast_power<output_t, 2.>( get_datum(idx) - mean_val );
+                moc[Measures::variance] += Math_Helpers::IntPower<output_t, 2>( get_datum(idx) - mean_val );
             }
 
             // Assumes this is not a sampling variance
@@ -118,7 +119,7 @@ namespace Statistics
         if (!moc_computed[Measures::skewness])
         {
             output_t std_val = standard_deviation();
-            moc[Measures::skewness] = nth_central_moment( 3 ) / fast_power<output_t, 3.>( std_val );
+            moc[Measures::skewness] = nth_central_moment( 3 ) / Math_Helpers::IntPower<output_t, 3>(std_val);
             moc_computed[Measures::skewness] = true;
         }
         return moc[Measures::skewness];
@@ -130,7 +131,7 @@ namespace Statistics
         if (!moc_computed[Measures::kurtosis])
         {
             output_t var_val = variance();
-            moc[Measures::kurtosis] = nth_central_moment( 4 ) / fast_power<output_t, 2.>( var_val );
+            moc[Measures::kurtosis] = nth_central_moment( 4 ) / Math_Helpers::IntPower<output_t, 4>(var_val);
             moc_computed[Measures::kurtosis] = true;
         }
         return moc[Measures::kurtosis];
@@ -149,7 +150,7 @@ namespace Statistics
         output_t nth_val = 0;
         for ( std::uint32_t idx = 0; idx != _size; ++idx )
         {
-            nth_val += fast_power<output_t, nth>( get_datum(idx) - mean_val );
+            nth_val += Math_Helpers::IntPower<output_t, nth>( get_datum(idx) - mean_val );
         }
         nth_val /= static_cast<output_t>( _size );
         return nth_val;                    
