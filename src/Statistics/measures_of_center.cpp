@@ -13,10 +13,10 @@ namespace Statistics
     {
         // Assign the statistical functions for
         // the measures of center
-        stat_functions[Measures::mean] = (void*) &( mean() );
-        stat_functions[Measures::variance] = (void*) &( variance() );
-        stat_functions[Measures::skewness] = (void*) &( skewness() );
-        stat_functions[Measures::kurtosis] = (void*) &( kurtosis() );
+        stat_functions[Measures::mean] = &( mean() );
+        stat_functions[Measures::variance] = &( variance() );
+        stat_functions[Measures::skewness] = &( skewness() );
+        stat_functions[Measures::kurtosis] = &( kurtosis() );
     }                     
 
     template<typename input_t, typename output_t>
@@ -152,14 +152,14 @@ namespace Statistics
             nth_val += fast_power<output_t, nth>( get_datum(idx) - mean_val );
         }
         nth_val /= static_cast<output_t>( _size );
-        return nth_val                    
+        return nth_val;                    
     }
 
     template<typename input_t, typename output_t>
     void Measures_of_Center<input_t, output_t>::compute_statistics() const
     {
         for ( std::uint32_t meas = 0; meas != measure_to_<std::uint32_t>(Measures::NUM_MEASURES); ++meas )
-            *stat_functions[meas]();
+            stat_functions[meas]();
     }
     // End of Statistical Function Definitions
     /* ================================================ */

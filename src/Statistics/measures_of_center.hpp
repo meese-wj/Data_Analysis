@@ -2,6 +2,7 @@
 #define MEASURES_OF_CENTER
 // This header defines the measures of center class.
 
+#include <cstdint>
 #include <vector>
 #include "fast_template_powers.hpp"
 
@@ -61,7 +62,7 @@ namespace Statistics
             
             // Store the statistical function pointers on the 
             // stack to for iteration purposes
-            static void * stat_functions [Measures::NUM_MEASURES];
+            static output_t (*stat_functions [Measures::NUM_MEASURES])(void);
 
     
     };
