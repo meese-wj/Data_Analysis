@@ -46,6 +46,9 @@ namespace Statistics
             virtual output_t get_measure( const Measures measure ) const;
             virtual output_t get_measure( const std::uint32_t measure ) const;
 
+            // Output functions
+            virtual void print_moc() const;
+
         protected:
             // Assume that the data is contiguous in memory
             std::uint32_t _size;
@@ -61,9 +64,7 @@ namespace Statistics
             
             // Store the statistical function pointers on the 
             // stack to for iteration purposes
-            static output_t (Measures_of_Center<input_t, output_t>::* stat_functions [Measures::NUM_MEASURES]) (void);
-
-    
+            output_t (Measures_of_Center<input_t, output_t>::* stat_functions [Measures::NUM_MEASURES]) (void);
     };
 }
 

@@ -5,6 +5,7 @@
 // TODO: Learn how to fix the templates
 // #include "int_power_templates.hpp"
 #include <cmath>
+#include <iostream>
 
 namespace Statistics
 {
@@ -205,17 +206,38 @@ namespace Statistics
     // End of Getter Function Definitions
     /* ================================================ */
 
+    /* ************************************************ */
+    // Begin Output Function Definitions
+    template<typename input_t, typename output_t>
+    void Measures_of_Center<input_t, output_t>::print_moc() const
+    {
+        std::cout << "\n";
+        std::cout << "\nMeasures of Center:";
+        std::cout << "\n\tMean      = " << get_measure(Measures::mean);
+        std::cout << "\n\tVariance  = " << get_measure(Measures::variance);
+        std::cout << "\n\tStd. Dev. = " << sqrt( get_measure(Measures::variance) );
+        std::cout << "\n\tStd. Err. = " << sqrt( get_measure(Measures::variance) / static_cast<output_t>(_size) );
+        std::cout << "\n\tSkewness  = " << get_measure(Measures::skewness);
+        std::cout << "\n\tKurtosis  = " << get_measure(Measures::kurtosis);
+        std::cout << "\n";
+        std::cout << "\n";
+    }
+
+    /* ================================================ */
 
     // Declare a bunch of different measures of 
     // center types to prevent linker errors.
     namespace TemplateDeclarations
     {
-        Measures_of_Center<int> mocii;
-        Measures_of_Center<int, double> mocid();
-        Measures_of_Center<int, float> mocif();
-        Measures_of_Center<double> mocdd();
-        Measures_of_Center<double, float> mocdf();
-        Measures_of_Center<float, double> mocfd();
+        void Declaration_Function()
+        {    
+            Measures_of_Center<int> mocii;
+            Measures_of_Center<int, double> mocid;
+            Measures_of_Center<int, float> mocif;
+            Measures_of_Center<double> mocdd;
+            Measures_of_Center<double, float> mocdf;
+            Measures_of_Center<float, double> mocfd;
+        }
     }
 }
 
