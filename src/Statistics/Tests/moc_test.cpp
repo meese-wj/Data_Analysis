@@ -22,16 +22,16 @@ int data_array [] = { -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0,
 
 int main()
 {
-    Statistics::Measures_of_Center<int, double> int_moc;
+    Statistics::Measures_of_Center<int, int> int_moc;
     int_moc.collect_data( data_array, data_array + sizeof(data_array) / sizeof(int) );
     int_moc.compute_statistics();
     int_moc.print_moc();
 
     // Testing here...
-    assert(int_moc.mean() == test_mean);
-    assert(int_moc.variance() == test_variance);
-    assert(int_moc.skewness() == test_skewness);
-    assert(int_moc.kurtosis() == test_kurtosis);
+    assert(int_moc.get_measure(Statistics::Measures::mean) == test_mean);
+    assert(int_moc.get_measure(Statistics::Measures::variance) == test_variance);
+    assert(int_moc.get_measure(Statistics::Measures::skewness) == test_skewness);
+    assert(int_moc.get_measure(Statistics::Measures::kurtosis) == test_kurtosis);
 
     return 0;
 }

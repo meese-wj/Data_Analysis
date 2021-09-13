@@ -94,7 +94,7 @@ namespace Statistics
 
             // Assumes this is not a sampling variance
             moc[Measures::variance] /= static_cast<output_t>( _size );
-            moc[Measures::variance] = true;
+            moc_computed[Measures::variance] = true;
         }
         return moc[Measures::variance];
     }
@@ -131,6 +131,7 @@ namespace Statistics
                 temp = get_datum(idx) - mean_val;
                 moc[Measures::skewness] += temp * temp * temp;
             }
+            moc[Measures::skewness] /= static_cast<output_t>(_size);
             moc[Measures::skewness] /= (std_val * std_val * std_val);
             moc_computed[Measures::skewness] = true;
         }
@@ -151,6 +152,7 @@ namespace Statistics
                 temp = get_datum(idx) - mean_val;
                 moc[Measures::kurtosis] += temp * temp * temp * temp;
             }
+            moc[Measures::kurtosis] /= static_cast<output_t>(_size);
             moc[Measures::kurtosis] /= (var_val * var_val);
             moc_computed[Measures::kurtosis] = true;
         }
@@ -213,12 +215,12 @@ namespace Statistics
     {
         std::cout << "\n";
         std::cout << "\nMeasures of Center:";
-        std::cout << "\n\tMean      = " << get_measure(Measures::mean);
-        std::cout << "\n\tVariance  = " << get_measure(Measures::variance);
-        std::cout << "\n\tStd. Dev. = " << sqrt( get_measure(Measures::variance) );
-        std::cout << "\n\tStd. Err. = " << sqrt( get_measure(Measures::variance) / static_cast<output_t>(_size) );
-        std::cout << "\n\tSkewness  = " << get_measure(Measures::skewness);
-        std::cout << "\n\tKurtosis  = " << get_measure(Measures::kurtosis);
+        std::cout << "\n  Mean      = " << get_measure(Measures::mean);
+        std::cout << "\n  Variance  = " << get_measure(Measures::variance);
+        std::cout << "\n  Std. Dev. = " << sqrt( get_measure(Measures::variance) );
+        std::cout << "\n  Std. Err. = " << sqrt( get_measure(Measures::variance) / static_cast<output_t>(_size) );
+        std::cout << "\n  Skewness  = " << get_measure(Measures::skewness);
+        std::cout << "\n  Kurtosis  = " << get_measure(Measures::kurtosis);
         std::cout << "\n";
         std::cout << "\n";
     }
