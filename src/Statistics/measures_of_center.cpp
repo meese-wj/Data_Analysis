@@ -2,7 +2,8 @@
 // Measures of Center class
 
 #include "measures_of_center.hpp"
-#include "int_power_templates.hpp"
+// TODO: Learn how to fix the templates
+// #include "int_power_templates.hpp"
 #include <cmath>
 
 namespace Statistics
@@ -14,10 +15,10 @@ namespace Statistics
     {
         // Assign the statistical functions for
         // the measures of center
-        stat_functions[Measures::mean] = &( mean() );
-        stat_functions[Measures::variance] = &( variance() );
-        stat_functions[Measures::skewness] = &( skewness() );
-        stat_functions[Measures::kurtosis] = &( kurtosis() );
+        stat_functions[Measures::mean] = &( mean );
+        stat_functions[Measures::variance] = &( variance );
+        stat_functions[Measures::skewness] = &( skewness );
+        stat_functions[Measures::kurtosis] = &( kurtosis );
     }                     
 
     template<typename input_t, typename output_t>
@@ -32,8 +33,8 @@ namespace Statistics
     {
         // This assumes the input data is contiguous as
         // it is for the STL vector.
-        _start = static_cast<output_t*>( data_start );
-        _end   = static_cast<output_t*>( data_end );
+        _start = data_start;
+        _end   = data_end;
         _size  = static_cast<std::uint32_t>( _end - _start );
 
         reset_measures();
@@ -42,11 +43,11 @@ namespace Statistics
     template<typename input_t, typename output_t>
     void Measures_of_Center<input_t, output_t>::collect_data( const std::vector<input_t> & data )
     {
-        collect_data( data.begin(), data.end() );
+        collect_data( data.data(), data.data() + data.size() );
     }
 
     template<typename input_t, typename output_t>
-    void Measures_of_Center<input_t, output_t>::reset_measures() const
+    void Measures_of_Center<input_t, output_t>::reset_measures()
     {
         for ( std::uint32_t meas = 0; meas != measure_to_<std::uint32_t>(Measures::NUM_MEASURES); ++meas )
         {
@@ -60,7 +61,7 @@ namespace Statistics
     /* ************************************************ */
     // Begin Statistical Function Definitions
     template<typename input_t, typename output_t>
-    output_t Measures_of_Center<input_t, output_t>::mean() const
+    output_t Measures_of_Center<input_t, output_t>::mean()
     {
         if (!moc_computed[Measures::mean])
         {
@@ -76,16 +77,18 @@ namespace Statistics
     }
     
     template<typename input_t, typename output_t>
-    output_t Measures_of_Center<input_t, output_t>::variance() const
+    output_t Measures_of_Center<input_t, output_t>::variance()
     {
         if (!moc_computed[Measures::variance])
         {   
             moc[Measures::variance] = 0;
             output_t mean_val = mean();
             
+            output_t temp = 0;
             for ( std::uint32_t idx = 0; idx != _size; ++idx )
             {
-                moc[Measures::variance] += Math_Helpers::IntPower<output_t, 2>( get_datum(idx) - mean_val );
+                temp = get_datum(idx) - mean_val;
+                moc[Measures::variance] += temp * temp;
             }
 
             // Assumes this is not a sampling variance
@@ -98,7 +101,7 @@ namespace Statistics
     // This should really only be called after 
     // the variance has been computed for speed.
     template<typename input_t, typename output_t>
-    output_t Measures_of_Center<input_t, output_t>::standard_deviation() const
+    output_t Measures_of_Center<input_t, output_t>::standard_deviation()
     {
         output_t var_val = variance();
         return sqrt( var_val );
@@ -107,38 +110,55 @@ namespace Statistics
     // This should really only be called after 
     // the variance has been computed for speed.
     template<typename input_t, typename output_t>
-    output_t Measures_of_Center<input_t, output_t>::standard_error() const
+    output_t Measures_of_Center<input_t, output_t>::standard_error()
     {
         output_t var_val = variance();
         return sqrt( var_val / static_cast<std::uint32_t>(_size) );
     }
 
     template<typename input_t, typename output_t>
-    output_t Measures_of_Center<input_t, output_t>::skewness() const
+    output_t Measures_of_Center<input_t, output_t>::skewness()
     {
         if (!moc_computed[Measures::skewness])
         {
             output_t std_val = standard_deviation();
-            moc[Measures::skewness] = nth_central_moment( 3 ) / Math_Helpers::IntPower<output_t, 3>(std_val);
+
+            output_t mean_val = mean();
+            output_t temp = 0;
+            for ( std::uint32_t idx = 0; idx != _size; ++idx )
+            {
+                temp = get_datum(idx) - mean_val;
+                moc[Measures::skewness] += temp * temp * temp;
+            }
+            moc[Measures::skewness] /= (std_val * std_val * std_val);
             moc_computed[Measures::skewness] = true;
         }
         return moc[Measures::skewness];
     }
 
     template<typename input_t, typename output_t>
-    output_t Measures_of_Center<input_t, output_t>::kurtosis() const
+    output_t Measures_of_Center<input_t, output_t>::kurtosis()
     {
         if (!moc_computed[Measures::kurtosis])
         {
             output_t var_val = variance();
-            moc[Measures::kurtosis] = nth_central_moment( 4 ) / Math_Helpers::IntPower<output_t, 4>(var_val);
+
+            output_t mean_val = mean();
+            output_t temp = 0;
+            for ( std::uint32_t idx = 0; idx != _size; ++idx )
+            {
+                temp = get_datum(idx) - mean_val;
+                moc[Measures::kurtosis] += temp * temp * temp * temp;
+            }
+            moc[Measures::kurtosis] /= (var_val * var_val);
             moc_computed[Measures::kurtosis] = true;
         }
         return moc[Measures::kurtosis];
     }
 
+    // Not recommended for use unless the nth power is unusual.
     template<typename input_t, typename output_t>
-    output_t Measures_of_Center<input_t, output_t>::nth_central_moment( const output_t nth ) const
+    output_t Measures_of_Center<input_t, output_t>::nth_central_moment( const output_t nth )
     {
         if ( nth == 2 )
             return variance();
@@ -147,17 +167,17 @@ namespace Statistics
         output_t nth_val = 0;
         for ( std::uint32_t idx = 0; idx != _size; ++idx )
         {
-            nth_val += Math_Helpers::IntPower<output_t, nth>( get_datum(idx) - mean_val );
+            nth_val += pow(get_datum(idx) - mean_val, nth);
         }
         nth_val /= static_cast<output_t>( _size );
         return nth_val;                    
     }
 
     template<typename input_t, typename output_t>
-    void Measures_of_Center<input_t, output_t>::compute_statistics() const
+    void Measures_of_Center<input_t, output_t>::compute_statistics()
     {
         for ( std::uint32_t meas = 0; meas != measure_to_<std::uint32_t>(Measures::NUM_MEASURES); ++meas )
-            stat_functions[meas]();
+            (this ->* stat_functions[meas])();
     }
     // End of Statistical Function Definitions
     /* ================================================ */
@@ -188,9 +208,15 @@ namespace Statistics
 
     // Declare a bunch of different measures of 
     // center types to prevent linker errors.
-    Measures_of_Center<double> mocdd();
-    Measures_of_Center<double, float> mocdf();
-    Measures_of_Center<float, double> mocfd();
+    namespace TemplateDeclarations
+    {
+        Measures_of_Center<int> mocii;
+        Measures_of_Center<int, double> mocid();
+        Measures_of_Center<int, float> mocif();
+        Measures_of_Center<double> mocdd();
+        Measures_of_Center<double, float> mocdf();
+        Measures_of_Center<float, double> mocfd();
+    }
 }
 
 

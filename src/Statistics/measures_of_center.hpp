@@ -29,17 +29,17 @@ namespace Statistics
             virtual ~Measures_of_Center();
             virtual void collect_data( const input_t * const data_start, const input_t * const data_end );
             virtual void collect_data( const std::vector<input_t> & data );
-            virtual void reset_measures() const;
+            virtual void reset_measures();
 
             // Statistical functions
-            virtual output_t mean() const;
-            virtual output_t variance() const;
-            virtual output_t standard_deviation() const;
-            virtual output_t standard_error() const;
-            virtual output_t skewness() const;
-            virtual output_t kurtosis() const;
-            virtual output_t nth_central_moment( const output_t nth ) const;
-            virtual void compute_statistics() const;
+            virtual output_t mean();
+            virtual output_t variance();
+            virtual output_t standard_deviation();
+            virtual output_t standard_error();
+            virtual output_t skewness();
+            virtual output_t kurtosis();
+            virtual output_t nth_central_moment( const output_t nth );
+            virtual void compute_statistics();
 
             // Getter functions
             virtual output_t get_datum( const std::uint32_t idx ) const;
@@ -49,8 +49,8 @@ namespace Statistics
         protected:
             // Assume that the data is contiguous in memory
             std::uint32_t _size;
-            input_t * _start;
-            input_t * _end;
+            const input_t * _start;
+            const input_t * _end;
             
             // Store whether each measure is known
             // yet or not.
@@ -61,7 +61,7 @@ namespace Statistics
             
             // Store the statistical function pointers on the 
             // stack to for iteration purposes
-            static output_t (*stat_functions [Measures::NUM_MEASURES])(void);
+            static output_t (Measures_of_Center<input_t, output_t>::* stat_functions [Measures::NUM_MEASURES]) (void);
 
     
     };
