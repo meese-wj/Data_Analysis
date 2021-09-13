@@ -11,5 +11,5 @@ message(STATUS "CMake Source Location: ${CMAKE_SOURCE_DIR}")
 message(STATUS "CMake Binary Location: ${CMAKE_BINARY_DIR}")
 message(STATUS "CMake Runtime Output Location: ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
 
-
+enable_testing()
 add_subdirectory(src)

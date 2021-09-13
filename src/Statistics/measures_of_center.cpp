@@ -140,9 +140,6 @@ namespace Statistics
     template<typename input_t, typename output_t>
     output_t Measures_of_Center<input_t, output_t>::nth_central_moment( const output_t nth ) const
     {
-        if ( nth == 1 )
-            return mean();
-        
         if ( nth == 2 )
             return variance();
         
