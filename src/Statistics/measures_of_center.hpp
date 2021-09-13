@@ -8,7 +8,8 @@ namespace Statistics
 {
     enum Measures
     {
-        mean, standard_deviation, standard_error, median, mode, skewness, kurtosis, NUM_MEASURES
+        mean, standard_deviation, standard_error, 
+        skewness, kurtosis, median, mode, NUM_MEASURES
     };
 
     // Convert enum measure to int type
@@ -29,6 +30,13 @@ namespace Statistics
             virtual void collect_data( const std::vector<input_t> & data );
 
             // Statistical functions
+            virtual output_t mean() const;
+            virtual output_t standard_deviation() const;
+            virtual output_t standard_error() const;
+            virtual output_t skewness() const;
+            virtual output_t kurtosis() const;
+            virtual output_t median() const;
+            virtual output_t mode() const;
             virtual output_t nth_central_moment( const input_t nth );
             virtual void compute_statistics() const;
 
@@ -37,9 +45,13 @@ namespace Statistics
             virtual output_t get_measure( const std::uint32_t measure ) const;
 
         protected:
+            // Store the statistical function pointers on the 
+            // stack to for iteration purposes
+            static void * stat_functions [Measures::NUM_MEASURES];
+
             // Store the measures on the stack
             output_t moc [Measures::NUM_MEASURES];
-
+            
             // Assume that the data is contiguous in memory
             std::uint32_t _size;
             input_t * _start;
