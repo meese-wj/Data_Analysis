@@ -1,3 +1,4 @@
+add_subdirectory(DataStream)
 add_subdirectory(Statistics)
 
 add_executable(DataAnalysis main.cpp)

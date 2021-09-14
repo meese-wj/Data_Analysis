@@ -33,7 +33,7 @@ namespace DataStreams
     {
         // Overloaded C-style data import for when
         // the size is specified instead of the end
-        data_import( start, start + static_cast<data_t*>(length) );
+        data_import( start, start + length );
     }
 
     template<typename data_t>
@@ -44,8 +44,8 @@ namespace DataStreams
     }
     
     template<typename data_t>
-    void DataStream<data_t>::data_import( const data_t ** const start, 
-                                          const data_t ** const end )
+    void DataStream<data_t>::data_import( const data_t * const * const start, 
+                                          const data_t * const * const end )
     {
         // Here we import a C-style array of pointers to
         // non-contiguous data and COPY it into
@@ -59,12 +59,12 @@ namespace DataStreams
     }
 
     template<typename data_t>
-    void DataStream<data_t>::data_import( const data_t ** const start, 
+    void DataStream<data_t>::data_import( const data_t * const * const start, 
                                           const std::uint32_t length )
     {
         // Overloaded of C-style non-contiguous 
         // data_import for when the size is specified
-        data_import( start, start + static_cast<data_t**>(length) );
+        data_import( start, start + length );
     }
     
     template<typename data_t>

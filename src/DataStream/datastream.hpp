@@ -43,9 +43,9 @@ namespace DataStreams
                             
             virtual void data_import( const std::vector<data_t> & data );
             // Non-contiguous imports
-            virtual void data_import( const data_t ** const start,
-                                      const data_t ** const end );
-            virtual void data_import( const data_t ** const start,
+            virtual void data_import( const data_t * const * const start,
+                                      const data_t * const * const end );
+            virtual void data_import( const data_t * const * const start,
                                       const std::uint32_t length );
 
             virtual void data_import( const std::vector<data_t*> & data );
