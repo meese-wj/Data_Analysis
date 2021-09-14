@@ -11,8 +11,11 @@ namespace Statistics
 {
     /* ************************************************ */
     // Begin Setup Function Definitions
+    
+    // Two-part construction is necessary since this in
+    // a base template class
     template<typename input_t, typename output_t>
-    Measures_of_Center<input_t, output_t>::Measures_of_Center()
+    void Measures_of_Center<input_t, output_t>::MoC_initialize()
     {
         // Assign the statistical functions for
         // the measures of center
@@ -20,12 +23,6 @@ namespace Statistics
         stat_functions[Measures::variance] = &( variance );
         stat_functions[Measures::skewness] = &( skewness );
         stat_functions[Measures::kurtosis] = &( kurtosis );
-    }                     
-
-    template<typename input_t, typename output_t>
-    Measures_of_Center<input_t, output_t>::~Measures_of_Center()
-    {
-        // Nothing to delete yet
     }
 
     template<typename input_t, typename output_t>

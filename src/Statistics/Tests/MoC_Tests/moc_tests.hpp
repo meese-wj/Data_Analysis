@@ -27,18 +27,18 @@ namespace MoC_Tests
                             1, 2, 3, 4, 5, 6, 7, 
                             8, 9, 10 };
     
-    struct MoC_Tester
+    struct MoC_Tester : public Statistics::Measures_of_Center<int, int>
     {
-        Statistics::Measures_of_Center<int, int> int_moc;
-        MoC_Tester() : int_moc()
+        MoC_Tester() : Statistics::Measures_of_Center<int, int>::Measures_of_Center()
         {
-            int_moc.collect_data( data_array, data_array + sizeof(data_array) / sizeof(int) );
-            int_moc.compute_statistics();
+            MoC_initialize();
+            collect_data( data_array, data_array + sizeof(data_array) / sizeof(int) );
+            compute_statistics();
         }
 
         void mean_test()
         {
-            int value = int_moc.get_measure(Statistics::Measures::mean);
+            int value = get_measure(Statistics::Measures::mean);
             TEST_ID()
             PRINT_TEST_VALUE( value )
             assert(value == test_mean); 
@@ -46,7 +46,7 @@ namespace MoC_Tests
 
         void variance_test()
         {
-            int value = int_moc.get_measure(Statistics::Measures::variance);
+            int value = get_measure(Statistics::Measures::variance);
             TEST_ID()
             PRINT_TEST_VALUE( value )
             assert(value == test_variance); 
@@ -54,7 +54,7 @@ namespace MoC_Tests
         
         void skewness_test()
         {
-            int value = int_moc.get_measure(Statistics::Measures::skewness);
+            int value = get_measure(Statistics::Measures::skewness);
             TEST_ID()
             PRINT_TEST_VALUE( value )
             assert(value == test_skewness); 
@@ -62,7 +62,7 @@ namespace MoC_Tests
         
         void kurtosis_test()
         {
-            int value = int_moc.get_measure(Statistics::Measures::kurtosis);
+            int value = get_measure(Statistics::Measures::kurtosis);
             TEST_ID()
             PRINT_TEST_VALUE( value )
             assert(value == test_kurtosis); 

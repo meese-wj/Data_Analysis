@@ -25,8 +25,9 @@ namespace Statistics
     {
         public:
             // Setup functions
-            Measures_of_Center();
-            virtual ~Measures_of_Center();
+            Measures_of_Center() = default;
+            virtual void MoC_initialize();
+            virtual ~Measures_of_Center() { /* intentionally empty */ };
             virtual void collect_data( const input_t * const data_start, const input_t * const data_end );
             virtual void collect_data( const std::vector<input_t> & data );
             virtual void reset_measures();
