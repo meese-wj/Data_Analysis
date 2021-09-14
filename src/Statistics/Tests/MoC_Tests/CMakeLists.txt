@@ -1,0 +1,20 @@
+add_executable(MoC_Mean moc_mean.cpp)
+add_executable(MoC_Variance moc_variance.cpp)
+add_executable(MoC_Skewness moc_skewness.cpp)
+add_executable(MoC_Kurtosis moc_kurtosis.cpp)
+
+target_link_libraries(MoC_Mean Statistics)
+target_link_libraries(MoC_Variance Statistics)
+target_link_libraries(MoC_Skewness Statistics)
+target_link_libraries(MoC_Kurtosis Statistics)
+
+set_target_properties(MoC_Mean PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${Stats_Tests_DIR})
+set_target_properties(MoC_Variance PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${Stats_Tests_DIR})
+set_target_properties(MoC_Skewness PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${Stats_Tests_DIR})
+set_target_properties(MoC_Kurtosis PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${Stats_Tests_DIR})
+
+add_test(NAME MoC_Mean COMMAND MoC_Mean WORKING_DIRECTORY ${Stats_Tests_DIR})
+add_test(NAME MoC_Variance COMMAND MoC_Variance WORKING_DIRECTORY ${Stats_Tests_DIR})
+add_test(NAME MoC_Skewness COMMAND MoC_Skewness WORKING_DIRECTORY ${Stats_Tests_DIR})
+add_test(NAME MoC_Kurtosis COMMAND MoC_Kurtosis WORKING_DIRECTORY ${Stats_Tests_DIR})
+message(STATUS "Find MoC_Test(s) in ${Stats_Tests_DIR}")
