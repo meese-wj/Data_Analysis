@@ -1,3 +1,5 @@
+# Add this library to just be sure 
+# the DataStreams compile
 add_library(DataStreams
             datastream.cpp)
 
