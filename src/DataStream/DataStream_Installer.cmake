@@ -11,19 +11,19 @@ set(cmake_version_out ${CMAKE_CURRENT_BINARY_DIR}/${install_lib_name}_ConfigVers
 set(cmake_install_file ${install_lib_name}_Targets.cmake)
 set(cmake_install_dest ${CMAKE_INSTALL_LIBDIR}/cmake/${install_lib_name})
 
-add_library(data_analysis_statistics INTERFACE)
-target_include_directories(data_analysis_statistics INTERFACE  
+add_library(data_analysis_datastream INTERFACE)
+target_include_directories(data_analysis_datastream INTERFACE  
                            "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>"
                            "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
 
-install(TARGETS data_analysis_statistics
+install(TARGETS data_analysis_datastream
         EXPORT ${install_lib_name}
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
         INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
-install(FILES measures_of_center.hpp 
+install(FILES datastream.hpp 
         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 install(EXPORT ${install_lib_name}
