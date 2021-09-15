@@ -1,3 +1,5 @@
+set(install_namespace "Data_Analysis")
+
 add_subdirectory(DataStream)
 add_subdirectory(Statistics)
 

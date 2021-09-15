@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.15)
-project(FilesystemHandler)
+project(Data_Analysis)
 
 string(TIMESTAMP cmake_time "%Y-%m-%d: %H:%M:%S")
 message(STATUS "CMake Configure Time: ${cmake_time}")

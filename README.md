@@ -33,5 +33,15 @@ cmake --build .
 cmake --install .
 ```
 
-Then this library can be implemented with `find_package(Data_Analysis_<Library Name>)` when the installation location is added to the `PATH`, or by configuring CMake with `-DCMAKE_PREFIX_PATH=<Data Analysis Installation Location>`.
+Then this library can be implemented with `find_package(Data_Analysis_<Library Name>)` when the installation location is added to the `PATH`, or by configuring CMake with `-DCMAKE_PREFIX_PATH=<Data Analysis Installation Location>`. 
+
+A minimal CMake example is given below:
+
+```cmake
+...
+add_executable(Example main.cpp)
+find_package(Data_Analysis_<Library Name> REQUIRED)
+target_link_libraries(Example Data_Analysis::Data_Analysis_<Library Name>)
+...
+```
 
