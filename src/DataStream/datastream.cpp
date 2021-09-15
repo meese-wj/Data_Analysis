@@ -5,11 +5,8 @@ namespace DataStreams
 {
     /* ******************************************************* */
     // Begin setup function definitions
-    template<typename data_t>
-    DataStream<data_t>::~DataStream()
-    {
-        delete [] data_copy;
-    }
+    
+        /* All defined in-header */
 
     // End setup function definitions
     /* ======================================================= */
@@ -50,6 +47,7 @@ namespace DataStreams
         // Here we import a C-style array of pointers to
         // non-contiguous data and COPY it into
         // data_copy to make it contiguous.
+        delete [] data_copy; // Delete previous copy
         std::uint32_t data_length = static_cast<std::uint32_t>( end - start );
         data_copy = new data_t [data_length](); // Now it must be deleted.
         for ( std::uint32_t idx = 0; idx != data_length; ++idx )

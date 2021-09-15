@@ -1,6 +1,6 @@
-add_library(DataStream
+add_library(DataStreams
             datastream.cpp)
 
 # Add testing functionality
-set(DataStream_Test_DIR "${CMAKE_BINARY_DIR}/Testing/bin/DataStream")
+set(DataStream_Tests_DIR "${CMAKE_BINARY_DIR}/Testing/bin/DataStream")
 add_subdirectory(Tests)

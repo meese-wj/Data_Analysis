@@ -18,7 +18,7 @@ namespace DataStreams
     {
         public:
             DataStream() = default;
-            virtual ~DataStream();
+            virtual ~DataStream() { delete [] data_copy; }
             
             // Define some inline const getters
             const data_t * data_start() const { return _start; }
