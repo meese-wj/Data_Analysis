@@ -43,7 +43,8 @@ namespace DataStream_Tests
 
         void test_contiguous_imports( )
         {
-            std::cout << "Testing data_import( const test_t * const, const test_t * const )... ";
+            std::cout << "Beginning " << __FUNCTION__;
+            std::cout << "\nTesting data_import( const test_t * const, const test_t * const )... ";
             data_import( input_data, input_data + input_size );
             assert( datastream_equal_array( input_data, input_size ) );
             
@@ -65,21 +66,23 @@ namespace DataStream_Tests
             // Scatter the contiguous array throughout RAM
             // and store the locations in the contiguous
             // scattered array
-            delete [] scattered;
-            scattered = new test_t * [ input_size ];
+            std::cout << "\nBeginning " << __FUNCTION__ << "\n";
+            scattered = new test_t* [ input_size ];
 
             // Define the step size to be 32KB of memory
-            std::uint32_t step_size = (8 << 12) * sizeof(test_t) / sizeof(float); 
+            std::uint32_t step_size = (8 << 20); 
             delete [] scattered_data;
             scattered_size = input_size * step_size;
-            scattered = new test_t* [ scattered_size ];
-            std::cout << "Building scattered array of size: " << sizeof(scattered) << " bytes.";
+            scattered_data = new test_t* [ scattered_size ];
+            std::cout << "Building scattered array of size: " << sizeof(test_t) * scattered_size / 1000000 << " MB.";
+            for( std::uint32_t idx = 0; idx != scattered_size; ++idx )
+                scattered_data[idx] = new test_t;
             
             test_t value = 0;
-            for ( std::uint32_t idx = 0; idx != scattered_size; ++idx )
+            for ( int idx = 0; idx != scattered_size; ++idx )
             {
-                value =  input_data[ idx / input_size ] * (idx % step_size == 0); // Store the input_data at these locations
-                value += ( -static_cast<int>(idx) ) * (idx % step_size != 0);     // Put garbage in the other locations
+                value =  input_data[ idx / step_size ] * (idx % step_size == 0);  // Store the input_data at these locations
+                value += ( -idx ) * (idx % step_size != 0);                       // Put garbage in the other locations
 
                 *scattered_data[idx] = value;          // store the value in scattered data
             }
@@ -89,11 +92,12 @@ namespace DataStream_Tests
             for ( std::uint32_t idx = 0; idx != scattered_size; idx += step_size )
                 scattered[idx / step_size] = scattered_data[idx];
 
-            std::cout << "Function: " << __FUNCTION__ << " completed.\n";
+            std::cout << "\nFunction: " << __FUNCTION__ << " completed.\n";
         }
 
         void test_noncontiguous_imports()
         {
+            std::cout << "Beginning " << __FUNCTION__;
             test_t ** scattered = nullptr;
             scatter_array(scattered, input_data, input_size);
             const std::vector<test_t*> scattered_vector( scattered, scattered + input_size );

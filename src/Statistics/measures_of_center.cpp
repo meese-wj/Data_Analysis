@@ -19,10 +19,10 @@ namespace Statistics
     {
         // Assign the statistical functions for
         // the measures of center
-        stat_functions[Measures::mean] = &( mean );
-        stat_functions[Measures::variance] = &( variance );
-        stat_functions[Measures::skewness] = &( skewness );
-        stat_functions[Measures::kurtosis] = &( kurtosis );
+        stat_functions[Measures::mean] = &Measures_of_Center<input_t, output_t>::mean;
+        stat_functions[Measures::variance] = &Measures_of_Center<input_t, output_t>::variance;
+        stat_functions[Measures::skewness] = &Measures_of_Center<input_t, output_t>::skewness;
+        stat_functions[Measures::kurtosis] = &Measures_of_Center<input_t, output_t>::kurtosis;
     }
 
     template<typename input_t, typename output_t>
