@@ -7,3 +7,9 @@ add_library(Statistics
 # Define the testing directory and include it
 set(Stats_Tests_DIR "${CMAKE_BINARY_DIR}/Testing/bin/Statistics")
 add_subdirectory(Tests)
+
+# Add an installation for the statistics library
+set(install_lib_name Data_Analysis_Statistics)
+set(CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/${install_lib_name}")
+message(STATUS "CMake Install Location: ${CMAKE_INSTALL_PREFIX}")
+include(Statistics_Installer.cmake)
