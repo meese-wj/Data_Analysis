@@ -56,7 +56,8 @@ namespace DataStreams
             std::uint32_t _size;
 
             data_t * data_copy = nullptr;
-    };
+   
+    };  // DataStream
 
     /* ******************************************************* */
     // Begin setup function definitions

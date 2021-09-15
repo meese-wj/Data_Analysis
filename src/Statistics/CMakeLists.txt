@@ -1,3 +1,5 @@
+# This is just to be sure the library
+# compiles successfully
 add_library(Statistics 
             measures_of_center.cpp)
 
