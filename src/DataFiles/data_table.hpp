@@ -22,18 +22,22 @@ namespace DataFiles
             DataTable() = default;
             DataTable( const std::uint32_t rows, const std::uint32_t cols ) : num_rows(rows), num_cols(cols), table(rows)
             {
-                /* Intentionally empty */
+                for ( auto & row : table ) row = new std::vector<data_t>(num_cols);
             }
-            virtual ~DataTable() { /* Intentionally empty */ }
+            virtual ~DataTable() 
+            { 
+                for ( auto & row : table ) delete row;
+            }
 
             // Accessing functions
             std::uint32_t number_rows() const { return num_rows; }
             std::uint32_t number_columns() const { return num_cols; }
+            std::uint32_t number_elements() const { return number_rows() * number_columns(); }
             data_t & datum( const std::uint32_t row, const std::uint32_t col ) 
             { 
                 return (*table[row])[col]; 
             }
-            std::vector<data_t> * const row( const std::uint32_t row ) const
+            std::vector<data_t>* const row( const std::uint32_t row ) const
             {
                 return table[row];
             }
@@ -45,12 +49,11 @@ namespace DataFiles
 
 
             // Resizing function declarations
-            void resize_rows( const std::uint32_t new_rows, const std::uint8_t will_be_owned = true );
-            void resize_columns( const std::uint32_t new_cols, const std::uint8_t will_be_owned = true );
-            void resize( const std::uint32_t new_rows, const std::uint32_t new_cols, const std::uint8_t will_be_owned = true );
+            void resize_rows( const std::uint32_t new_rows );
+            void resize_columns( const std::uint32_t new_cols );
+            void resize( const std::uint32_t new_rows, const std::uint32_t new_cols );
 
         private:
-            std::uint32_t data_owned = false;
             std::uint32_t num_rows;
             std::uint32_t num_cols;
             std::vector<std::vector<data_t>*> table;
@@ -89,48 +92,37 @@ namespace DataFiles
     // Begin Resizing Function Definitions
 
     template<typename data_t>
-    void DataTable<data_t>::resize_rows( const std::uint32_t new_rows, const std::uint8_t will_be_owned  )
+    void DataTable<data_t>::resize_rows( const std::uint32_t new_rows )
     {
         if ( num_rows == new_rows ) return;  // null resize
-    }
 
-    template<typename data_t>
-    void DataTable<data_t>::resize_columns( const std::uint32_t new_cols, const std::uint8_t will_be_owned )
-    {
-        if ( num_cols == new_cols ) return;  // null resize
-
-        // Deleting columns is the easy part...
-        if ( num_cols > new_cols )
-        {
-            if (data_owned)
-            {
-                for ( std::uint32_t row = 0; row != num_rows; ++row )
-                {
-                    for ( std::uint32_t col = new_cols; col != num_cols; ++col )
-                        delete datum( row, col );
-                }
-            }
-        }
-        else
-        {
-            data_owned = will_be_owned;
-            if (data_owned)
-            {
-
-            }
-        }
-
-        num_cols = new_cols;
-        num_elements = num_rows * num_cols;
+        table.resize( new_rows );
+        // Only allocate memory if current rows < new rows
+        for ( std::uint32_t row = num_rows; row < new_rows; ++row )
+            table[row] = new std::vector<data_t>( num_cols );
+        
+        num_rows = new_rows;
         return;
     }
 
     template<typename data_t>
-    void DataTable<data_t>::resize( const std::uint32_t new_rows, const std::uint32_t new_cols, const std::uint8_t will_be_owned )
+    void DataTable<data_t>::resize_columns( const std::uint32_t new_cols )
     {
-        if ( num_rows == new_rows && num_cols == new_cols ) return;  // null resize...
+        if ( num_cols == new_cols ) return; // null resize
 
+        for ( const auto & row : table )
+            row -> resize( new_cols );
         
+        num_cols = new_cols;
+        return;
+    }
+
+    template<typename data_t>
+    void DataTable<data_t>::resize( const std::uint32_t new_rows, const std::uint32_t new_cols )
+    {
+        // Change the columns first, and then move onto the rows
+        resize_columns( new_cols );
+        resize_rows( new_rows );        
     }
     
     // End Resizing Function Definitions
