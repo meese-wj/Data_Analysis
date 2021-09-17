@@ -36,7 +36,11 @@ namespace DataFiles
             }
 
             // Accessing functions
-            std::uint32_t index( const std::uint32_t row, const std::uint32_t col ) const { return row * num_cols + col; }
+            std::uint32_t size() const { return num_elements; }
+            std::uint32_t rows() const { return num_rows; }
+            std::uint32_t columns() const { return num_cols; }
+            std::uint32_t index( const std::uint32_t row, const std::uint32_t col, 
+                                 const std::uint32_t ncols = num_cols ) const { return row * ncols + col; }
             data_t & datum( const std::uint32_t idx ) { return &table[idx]; }
             data_t & datum( const std::uint32_t row, const std::uint32_t col ) 
             { 
@@ -50,16 +54,98 @@ namespace DataFiles
 
 
             // Resizing function declarations
+            void resize_rows( const std::uint32_t new_rows, const std::uint8_t will_be_owned = true );
+            void resize_columns( const std::uint32_t new_cols, const std::uint8_t will_be_owned = true );
+            void resize( const std::uint32_t new_rows, const std::uint32_t new_cols, const std::uint8_t will_be_owned = true );
 
         private:
             std::uint32_t data_owned = false;
             std::uint32_t num_rows;
             std::uint32_t num_cols;
             std::uint32_t num_elements;
-            data_t * table;
+            data_t * table = nullptr;
 
-    };  // DataTable
+    };  // class DataTable
 
-}
+    /* ************************************************************************************** */
+    // Begin Initialization Function Definitions
+
+        /* Currently all defined inline */
+    
+    // End Initialization Function Definitions
+    /* ====================================================================================== */
+    
+    /* ************************************************************************************** */
+    // Begin Accessing Function Definitions
+
+        /* Currently all defined inline */
+    
+    // End Accessing Function Definitions
+    /* ====================================================================================== */
+    
+    /* ************************************************************************************** */
+    // Begin Data Import Function Definitions
+
+    template<typename data_t>
+    void DataTable<data_t>::data_import( data_t * const array )
+    {
+        
+    }
+    
+    // End Data Import Function Definitions
+    /* ====================================================================================== */
+    
+    /* ************************************************************************************** */
+    // Begin Resizing Function Definitions
+
+    template<typename data_t>
+    void DataTable<data_t>::resize_rows( const std::uint32_t new_rows, const std::uint8_t will_be_owned  )
+    {
+        if ( num_rows == new_rows ) return;  // null resize
+    }
+
+    template<typename data_t>
+    void DataTable<data_t>::resize_columns( const std::uint32_t new_cols, const std::uint8_t will_be_owned )
+    {
+        if ( num_cols == new_cols ) return;  // null resize
+
+        // Deleting columns is the easy part...
+        if ( num_cols > new_cols )
+        {
+            if (data_owned)
+            {
+                for ( std::uint32_t row = 0; row != num_rows; ++row )
+                {
+                    for ( std::uint32_t col = new_cols; col != num_cols; ++col )
+                        delete datum( row, col );
+                }
+            }
+        }
+        else
+        {
+            data_owned = will_be_owned;
+            if (data_owned)
+            {
+
+            }
+        }
+
+        num_cols = new_cols;
+        num_elements = num_rows * num_cols;
+        return;
+    }
+
+    template<typename data_t>
+    void DataTable<data_t>::resize( const std::uint32_t new_rows, const std::uint32_t new_cols, const std::uint8_t will_be_owned )
+    {
+        if ( num_rows == new_rows && num_cols == new_cols ) return;  // null resize...
+
+        
+    }
+    
+    // End Resizing Function Definitions
+    /* ====================================================================================== */
+
+} // namespace DataFiles
 
 #endif  // DATAFILES_DATA_TABLE
