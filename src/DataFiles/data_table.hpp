@@ -2,17 +2,13 @@
 #define DATAFILES_DATA_TABLE
 // Template class for a data table.
 // The tables are a simple row-major
-// ordered array of size num_rows * num_cols.
+// ordered array of STL vector pointers
 //
 // Data ownership is kept track of with the 
 // data_owned char. If the DataTable does own
 // its data, it will delete its data when the
 // destructor is called.
 //
-// I think I'll make then dynamically-sized
-// eventually. That or I'll switch to using
-// STL vectors... 
-// TODO: Undecided, presently (09/16/2021)
 
 #include <cstdint>
 #include <vector>
@@ -24,27 +20,22 @@ namespace DataFiles
     {
         public:
             DataTable() = default;
-            DataTable( const std::uint32_t rows, const std::uint32_t cols ) : num_rows(rows), num_cols(cols), num_elements(num_rows * num_cols)
+            DataTable( const std::uint32_t rows, const std::uint32_t cols ) : num_rows(rows), num_cols(cols), table(rows)
             {
-                data_owned = true;
-                table = new data_t [ num_elements ];
+                /* Intentionally empty */
             }
-            virtual ~DataTable()
-            { 
-                if (data_owned)
-                    delete [] table; 
-            }
+            virtual ~DataTable() { /* Intentionally empty */ }
 
             // Accessing functions
-            std::uint32_t size() const { return num_elements; }
-            std::uint32_t rows() const { return num_rows; }
-            std::uint32_t columns() const { return num_cols; }
-            std::uint32_t index( const std::uint32_t row, const std::uint32_t col, 
-                                 const std::uint32_t ncols = num_cols ) const { return row * ncols + col; }
-            data_t & datum( const std::uint32_t idx ) { return &table[idx]; }
+            std::uint32_t number_rows() const { return num_rows; }
+            std::uint32_t number_columns() const { return num_cols; }
             data_t & datum( const std::uint32_t row, const std::uint32_t col ) 
             { 
-                return datum( index( row, col ) ); 
+                return (*table[row])[col]; 
+            }
+            std::vector<data_t> * const row( const std::uint32_t row ) const
+            {
+                return table[row];
             }
 
             // Data import function declarations
@@ -62,8 +53,7 @@ namespace DataFiles
             std::uint32_t data_owned = false;
             std::uint32_t num_rows;
             std::uint32_t num_cols;
-            std::uint32_t num_elements;
-            data_t * table = nullptr;
+            std::vector<std::vector<data_t>*> table;
 
     };  // class DataTable
 
