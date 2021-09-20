@@ -13,9 +13,3 @@ message(STATUS "CMake Runtime Output Location: ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
 
 enable_testing()
 add_subdirectory(src)
-
-set(test_var "directory/name.cpp")
-get_filename_component(dirname ${test_var} DIRECTORY)
-get_filename_component(flname ${test_var} NAME)
-message(STATUS "Directory ${dirname}")
-message(STATUS "Filename ${flname}")

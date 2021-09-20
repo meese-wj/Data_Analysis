@@ -25,17 +25,17 @@ install(TARGETS ${install_targ}
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
         INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
-message(STATUS "ForEach()")
+message(STATUS "Adding the following header subfolder structure to the installation:")
+list(APPEND CMAKE_MESSAGE_INDENT "    ")
 foreach(header ${install_headers})
-        message(STATUS ${header})
-        get_filename_component(filename ${header} NAME)
-        get_filename_component(dirname ${header} DIRECTORY)
-        get_filename_component(dirname ${dirname} NAME)
-        message(STATUS "Directory: ${dirname}")
-        message(STATUS "Filename:  ${filename}")
-        install(FILES ${header}
-                DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${dirname})       
+get_filename_component(filename ${header} NAME)
+get_filename_component(dirname ${header} DIRECTORY)
+get_filename_component(dirname ${dirname} NAME)
+message(STATUS "Header: ${dirname}/${filename}")
+install(FILES ${header}
+DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${dirname})       
 endforeach()
+list(POP_BACK CMAKE_MESSAGE_INDENT)
 
 # install(FILES ${install_headers} 
 #         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})

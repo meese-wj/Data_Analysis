@@ -21,5 +21,11 @@ target_link_libraries(DataAnalysis
 
 
 # Install Data Analysis headers
-message(STATUS "Headers files to install: ${install_headers}")
+message(STATUS "Headers files to install:")
+list(APPEND CMAKE_MESSAGE_INDENT "    ")
+foreach(header ${install_headers})
+    message(STATUS "${header}")
+endforeach()
+list(POP_BACK CMAKE_MESSAGE_INDENT)
+
 include(Data_Analysis_Installer.cmake)
