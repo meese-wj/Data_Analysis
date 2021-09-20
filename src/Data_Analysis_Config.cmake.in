@@ -1,0 +1,7 @@
+@PACKAGE_INIT@
+
+include("${CMAKE_CURRENT_LIST_DIR}/Data_Analysis_Targets.cmake")
+
+check_required_components(Data_Analysis)
+
+message(STATUS "Data_Analysis library found and loaded.")

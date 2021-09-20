@@ -62,7 +62,7 @@ namespace DataFiles
             { 
                 append_column( column_start, column_start + column_size ); 
             }
-            void append_column( const vector<data_t> & column ) { append_column( column.data(), column.data() + column.size() ); }
+            void append_column( const std::vector<data_t> & column ) { append_column( column.data(), column.data() + column.size() ); }
             
             // Data row appenders
             void append_row( const data_t * const row_start, const data_t * const row_end );
@@ -70,7 +70,7 @@ namespace DataFiles
             { 
                 append_row( row_start, row_start + row_size ); 
             }
-            void append_row( const vector<data_t> & row ) { append_row( row.data(), row.data() + row.size() ); }
+            void append_row( const std::vector<data_t> & row ) { append_row( row.data(), row.data() + row.size() ); }
 
             // Resizing function declarations
             void resize_rows( const std::uint32_t new_rows );
@@ -112,7 +112,7 @@ namespace DataFiles
     template<typename data_t>
     void DataTable<data_t>::column_copy( const std::uint32_t column, const data_t * const column_start, const data_t * const column_end )
     {
-        assert( column <= number_columns() /* ERROR: the column cannot be copied into the specified column. */ )
+        assert( column <= number_columns() /* ERROR: the column cannot be copied into the specified column. */ );
         if ( column == number_columns() ) resize_columns( number_columns() + 1 );
 
         std::uint32_t column_size = column_end - column_start;
@@ -136,7 +136,7 @@ namespace DataFiles
     template<typename data_t>
     void DataTable<data_t>::row_copy( const std::uint32_t row, const data_t * const row_start, const data_t * const row_end )
     {
-        assert( row <= number_rows() /* ERROR: the row cannot be copied into the specified row. */ )
+        assert( row <= number_rows() /* ERROR: the row cannot be copied into the specified row. */ );
         if ( row == number_rows() ) resize_rows( number_rows() + 1 );
 
         std::uint32_t row_size = row_end - row_start;
@@ -225,7 +225,7 @@ namespace DataFiles
     template<typename data_t>
     void DataTable<data_t>::append_row( const data_t * const row_start, const data_t * const row_end )
     {
-        resize_rows( num_rows() + 1 );
+        resize_rows( number_rows() + 1 );
         std::uint32_t row_size = row_end - row_start;
         assert( row_size == number_columns() /* ERROR: cannot append column of different size */ );
         for (std::uint32_t row = 0; row != row_size; ++row)
