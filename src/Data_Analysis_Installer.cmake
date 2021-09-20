@@ -25,8 +25,20 @@ install(TARGETS ${install_targ}
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
         INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
-install(FILES ${install_headers} 
-        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+message(STATUS "ForEach()")
+foreach(header ${install_headers})
+        message(STATUS ${header})
+        get_filename_component(filename ${header} NAME)
+        get_filename_component(dirname ${header} DIRECTORY)
+        get_filename_component(dirname ${dirname} NAME)
+        message(STATUS "Directory: ${dirname}")
+        message(STATUS "Filename:  ${filename}")
+        install(FILES ${header}
+                DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${dirname})       
+endforeach()
+
+# install(FILES ${install_headers} 
+#         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 install(EXPORT ${install_namespace}
         FILE ${cmake_install_file}

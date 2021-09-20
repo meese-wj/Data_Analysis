@@ -1,5 +1,12 @@
 set(install_namespace "Data_Analysis")
 set(install_headers "")
+set(install_location ${CMAKE_INSTALL_PREFIX})
+get_filename_component(subdir ${install_location} NAME)
+if ( NOT ${subdir} STREQUAL ${install_namespace} )
+    # Append the subdirectory to the CMake Install Prefix only once
+    # as it is saved in the Cache
+    set(CMAKE_INSTALL_PREFIX ${install_location}/${install_namespace} CACHE PATH "Manually force install folder substructure." FORCE)
+endif()
 
 add_subdirectory(DataStream)
 add_subdirectory(DataFiles)
