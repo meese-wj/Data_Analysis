@@ -1,5 +1,5 @@
 # Add the headers to the install
-list(APPEND install_headers measures_of_center.hpp)
+list(APPEND install_headers ${CMAKE_CURRENT_LIST_DIR}/measures_of_center.hpp)
 set(install_headers ${install_headers} PARENT_SCOPE)
 
 # This is just to be sure the library

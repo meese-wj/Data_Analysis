@@ -1,5 +1,5 @@
 # Add headers to install headers
-list(APPEND install_headers datastream.hpp)
+list(APPEND install_headers ${CMAKE_CURRENT_LIST_DIR}/datastream.hpp)
 set(install_headers ${install_headers} PARENT_SCOPE)
 
 # Add this library to just be sure 
