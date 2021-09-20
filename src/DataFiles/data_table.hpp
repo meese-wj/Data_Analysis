@@ -295,8 +295,8 @@ namespace DataFiles
     template<typename data_t>
     void DataTable<data_t>::operator -= ( const DataTable<data_t> & other_table)
     {
-        assert( number_rows() == other_table.number_rows() /* ERROR: row mismatch on += */ );
-        assert( number_columns() == other_table.number_columns() /* ERROR: column mismatch on += */ );
+        assert( number_rows() == other_table.number_rows() /* ERROR: row mismatch on -= */ );
+        assert( number_columns() == other_table.number_columns() /* ERROR: column mismatch on -= */ );
 
         std::uint32_t nrows = number_rows(), ncols = number_columns();
         for (std::uint32_t row = 0; row != nrows; ++row)
@@ -307,8 +307,8 @@ namespace DataFiles
     template<typename data_t>
     void DataTable<data_t>::operator *= ( const DataTable<data_t> & other_table)
     {
-        assert( number_rows() == other_table.number_rows() /* ERROR: row mismatch on += */ );
-        assert( number_columns() == other_table.number_columns() /* ERROR: column mismatch on += */ );
+        assert( number_rows() == other_table.number_rows() /* ERROR: row mismatch on *= */ );
+        assert( number_columns() == other_table.number_columns() /* ERROR: column mismatch on *= */ );
 
         std::uint32_t nrows = number_rows(), ncols = number_columns();
         for (std::uint32_t row = 0; row != nrows; ++row)
@@ -319,8 +319,8 @@ namespace DataFiles
     template<typename data_t>
     void DataTable<data_t>::operator /= ( const DataTable<data_t> & other_table)
     {
-        assert( number_rows() == other_table.number_rows() /* ERROR: row mismatch on += */ );
-        assert( number_columns() == other_table.number_columns() /* ERROR: column mismatch on += */ );
+        assert( number_rows() == other_table.number_rows() /* ERROR: row mismatch on /= */ );
+        assert( number_columns() == other_table.number_columns() /* ERROR: column mismatch on /= */ );
 
         std::uint32_t nrows = number_rows(), ncols = number_columns();
         for (std::uint32_t row = 0; row != nrows; ++row)
