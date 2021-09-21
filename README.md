@@ -6,6 +6,9 @@ This repo contains some data analysis objects that should help with the statisti
 The `src` folder has the following substructure
 ```bash
 src
+|
+|----DataFiles
+|
 |----DataStream
 |    |----Tests
 |
