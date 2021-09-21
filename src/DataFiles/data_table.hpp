@@ -41,6 +41,10 @@ namespace DataFiles
             {
                 return table[row];
             }
+            std::vector<data_t> & row_reference( const std::uint32_t row )
+            {
+                return &table[row];
+            }
 
             // Data import function declarations
             void column_copy( const std::uint32_t column, const data_t * const column_start, const data_t * const column_end );
@@ -82,6 +86,7 @@ namespace DataFiles
             void operator -= (const DataTable<data_t> & other_data);
             void operator *= (const DataTable<data_t> & other_data);
             void operator /= (const DataTable<data_t> & other_data);
+            void manipulate( data_t (*func) (const data_t)  );
 
         private:
             std::uint32_t num_rows;
@@ -326,6 +331,17 @@ namespace DataFiles
         for (std::uint32_t row = 0; row != nrows; ++row)
             for (std::uint32_t col = 0; col != ncols; ++col)
                 datum(row, col) /= other_table.datum(row, col);
+    }
+
+    template<typename data_t>
+    void DataTable<data_t>::manipulate( data_t (*func) (const data_t) )
+    {
+        // Manipulate all the data element-wise with
+        // the func function
+        std::uint32_t nrows = number_rows();
+        for ( std::uint32_t row = 0; row != nrows; ++row )
+            for ( auto & data : row_reference(row) )
+                data = func(data);
     }
 
     // End Element-wise In-place Operator Definitions
