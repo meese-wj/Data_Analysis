@@ -46,7 +46,7 @@ target_link_libraries(Example Data_Analysis::Data_Analysis)
 ...
 ```
 
-The corresponding `C++` file that includes the `Statistics` library, for example, is shown below
+The corresponding `C++` file that includes the `Measures_of_Center` calculator out of the `Statistics` library, for example, is shown below
 
 ```c++
 // Example -- main.cpp
