@@ -15,12 +15,13 @@ src
 Each subfolder houses different base and derived classes that contain convenient numerical routines.
 
 ### Source Subfolder Overview
+1. [**DataFiles**](src/DataFiles/): convenient data structures for housing CSV-type data as well as file parsing and writing.
 1. [**DataStream**](src/DataStream/): contiguous container for data with a couple other features.
-2. [**Statistics**](src/Statistics/): currently only `Measures_of_Center`.
+1. [**Statistics**](src/Statistics/): currently only `Measures_of_Center`.
 
 ## Installation Instructions
 
-Each subfolder is a separate header-only library whose names are prepended with `Data_Analysis_`. For example, the `DataStream` library is named `Data_Analysis_DataStream`. The installation instructions with CMake's `find_package()` are as follows.
+This library is header-only, but the installation of the headers will be broken up into the subfolders shown above for downstream compatibility. The library is named `Data_Analysis`. The installation instructions with CMake's `find_package()` are as follows.
 
 First, clone the repo, then:
 
@@ -33,15 +34,29 @@ cmake --build .
 cmake --install .
 ```
 
-Then this library can be implemented with `find_package(Data_Analysis_<Library Name>)` when the installation location is added to the `PATH`, or by configuring CMake with `-DCMAKE_PREFIX_PATH=<Data Analysis Installation Location>`. 
+Then this library can be implemented with `find_package(Data_Analysis)` when the installation location is added to the `PATH`, or by configuring CMake with `-DCMAKE_PREFIX_PATH=<Data Analysis Installation Location>`. 
 
 A minimal CMake example is given below:
 
 ```cmake
 ...
 add_executable(Example main.cpp)
-find_package(Data_Analysis_<Library Name> REQUIRED)
-target_link_libraries(Example Data_Analysis::Data_Analysis_<Library Name>)
+find_package(Data_Analysis REQUIRED)
+target_link_libraries(Example Data_Analysis::Data_Analysis)
 ...
+```
+
+The corresponding `C++` file that includes the `Statistics` library, for example, is shown below
+
+```c++
+// Example -- main.cpp
+
+#include <Statistics/measures_of_center.hpp> // Include MoC header library
+
+int main(int, char **)
+{
+     Statistics::Measures_of_Center<double> mocd;
+     return 0;
+}
 ```
 
