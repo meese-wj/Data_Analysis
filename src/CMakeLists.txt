@@ -1,3 +1,4 @@
+set(project_include_dirs "")
 set(install_namespace "Data_Analysis")
 set(install_headers "")
 set(install_location ${CMAKE_INSTALL_PREFIX})
@@ -13,6 +14,7 @@ add_subdirectory(DataFiles)
 add_subdirectory(Statistics)
 
 add_executable(DataAnalysis main.cpp)
+target_include_directories(DataAnalysis PUBLIC ${project_include_dirs})
 
 target_link_libraries(DataAnalysis
                       Statistics

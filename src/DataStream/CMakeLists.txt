@@ -10,3 +10,7 @@ add_library(DataStreams
 # Add testing functionality
 set(DataStream_Tests_DIR "${CMAKE_BINARY_DIR}/Testing/bin/DataStream")
 add_subdirectory(Tests)
+
+list(APPEND project_include_dirs ${CMAKE_CURRENT_LIST_DIR})
+set(project_include_dirs ${project_include_dirs} PARENT_SCOPE)
+target_include_directories(DataStreams PUBLIC ${project_include_dirs})

@@ -11,3 +11,7 @@ add_library(Statistics
 # Define the testing directory and include it
 set(Stats_Tests_DIR "${CMAKE_BINARY_DIR}/Testing/bin/Statistics")
 add_subdirectory(Tests)
+
+list(APPEND project_include_dirs ${CMAKE_CURRENT_LIST_DIR})
+set(project_include_dirs ${project_include_dirs} PARENT_SCOPE)
+target_include_directories(Statistics PUBLIC ${project_include_dirs})
