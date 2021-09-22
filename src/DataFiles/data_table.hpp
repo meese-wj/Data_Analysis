@@ -250,10 +250,11 @@ namespace DataFiles
     {
         if ( num_rows == new_rows ) return;  // null resize
 
+        // Resize the std::vector of pointers
         table.resize( new_rows );
         // Only allocate memory if current rows < new rows
         for ( std::uint32_t row = num_rows; row < new_rows; ++row )
-            table[row] = new std::vector<data_t>( num_cols );
+            table[row] = new std::vector<data_t>( number_columns() );
         
         num_rows = new_rows;
         return;
