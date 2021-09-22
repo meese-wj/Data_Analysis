@@ -2,6 +2,14 @@
 
 This is a summary overview of the tested types named in this library. All types are defined within the `Statistics` `namespace`. 
 
+## Bootstrapper
+```c++
+class Bootstrapper<data_t>
+```
+This class uses the bootstrap resamping technique to compute sampling statistics from a finite number of _statistically independent_ measurements.
+
+The bootstrap is conventionally used to calculate the resampled mean and standard error, however, it can be used to calculate the mean of any statistic and estimate its standard error. 
+
 ## Measures of Center
 ```c++
 class Measures_of_Center<input_type, output_type = input_type>;

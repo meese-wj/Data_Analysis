@@ -20,7 +20,7 @@ Each subfolder houses different base and derived classes that contain convenient
 ### Source Subfolder Overview
 1. [**DataFiles**](src/DataFiles/): convenient data structures for housing CSV-type data as well as file parsing and writing.
 1. [**DataStream**](src/DataStream/): contiguous container for data with a couple other features.
-1. [**Statistics**](src/Statistics/): currently only `Measures_of_Center`.
+1. [**Statistics**](src/Statistics/): `Measures_of_Center` and `Bootstrapper` classes.
 
 ## Installation Instructions
 
